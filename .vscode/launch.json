@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TodoApiApplication<todo-api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.momarious.todoapi.TodoApiApplication",
+            "projectName": "todo-api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-KeycloakApplication<keycloak>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.momarious.userapi.KeycloakApplication",
+            "projectName": "keycloak",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
