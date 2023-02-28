@@ -1,53 +1,66 @@
 package com.momarious.todoapi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-import com.momarious.todoapi.entity.Todo;
-import com.momarious.todoapi.repository.TodoRepository;
 
-import java.util.Optional;
+import com.momarious.todoapi.dto.ResponseDto;
+import com.momarious.todoapi.dto.TodoDto;
+import com.momarious.todoapi.entity.Todo;
+import com.momarious.todoapi.service.TodoService;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("todos")
 public class TodoController {
 
-    @Autowired
-    private TodoRepository todoRepository;
+    private final TodoService todoService;
+    
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<Todo>> getAllTodos() {
-        List<Todo> todos = todoRepository.findAll();
-        return new ResponseEntity<>(todos, HttpStatus.OK);
+    public ResponseDto<List<Todo>> getAllTodos() {
+        try {
+            return ResponseDto.success("Todos retrieved successfully", todoService.getAllTodos());
+        } catch (Exception e) {
+            return ResponseDto.error(e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Todo> createTodo(@RequestBody Todo todo) {
-        Todo newTodo = todoRepository.save(todo);
-        return new ResponseEntity<>(newTodo, HttpStatus.CREATED);
+    public ResponseDto<Todo> createTodo(@RequestBody TodoDto todoDto) {
+        try {
+            return ResponseDto.success("Todo created successfully", todoService.createTodo(todoDto));
+        } catch (Exception e) {
+            return ResponseDto.error(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable String id) {
-        Todo todo = todoRepository.findById(id).orElseThrow(() -> new RuntimeException("Todo not found"));
-        return new ResponseEntity<>(todo, HttpStatus.OK);
+    public ResponseDto<Todo> getTodoById(@PathVariable String id) {
+        try {
+            return ResponseDto.success("Todo retrived successfully", todoService.getTodoById(id));
+        } catch (Exception e) {
+            return ResponseDto.error(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable String id, @RequestBody Todo todo) {
-        todo.setId(id);
-        Todo updatedTodo = todoRepository.save(todo);
-        return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
+    public ResponseDto<Todo> updateTodo(@PathVariable String id, @RequestBody Todo todo) {
+        try {
+            return ResponseDto.success("Todo updated successfully", null);
+        } catch (Exception e) {
+            return ResponseDto.error(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable String id) {
-        todoRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseDto<Boolean> deleteTodo(@PathVariable String id) {
+        try {
+            return ResponseDto.success("Todo deleted successfully", todoService.deleteTodoById(id));
+        } catch (Exception e) {
+            return ResponseDto.error(e.getMessage());
+        }
     }
-
-   
 }

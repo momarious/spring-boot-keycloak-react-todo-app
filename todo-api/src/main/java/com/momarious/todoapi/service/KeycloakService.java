@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class KeycloakService {
 
-    
+
     public String getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipal = (KeycloakPrincipal<KeycloakSecurityContext>) authentication
