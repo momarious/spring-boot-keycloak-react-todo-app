@@ -7,16 +7,16 @@ import lombok.Data;
 @AllArgsConstructor
 public class ResponseDto<T> {
 
-    private String status;
+    private Boolean success;
     private String message;
     private T data;
 
     public static <T> ResponseDto<T> success(String message, T data) {
-        return new ResponseDto<>("success", message, data);
+        return new ResponseDto<>(true, message, data);
     }
 
     public static <T> ResponseDto<T> error(String message) {
-        return new ResponseDto<>("error", message, null);
+        return new ResponseDto<>(false, message, null);
     }
 
 }

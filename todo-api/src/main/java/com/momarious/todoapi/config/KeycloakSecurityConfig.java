@@ -44,13 +44,15 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/todos").authenticated()
-                // .antMatchers(HttpMethod.POST, "/todos").authenticated()
+                .antMatchers(HttpMethod.POST, "/todos").authenticated()
                 // .antMatchers(HttpMethod.GET, "/usr").authenticated()
                 .antMatchers(HttpMethod.GET, "/todos/{id}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/todos/{id}").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/todos/{id}").hasRole("USER")
                 .anyRequest().authenticated();
-        http.csrf().disable();
+        // http.csrf().disable();
+        http.cors();
+
     }
 
     @Override

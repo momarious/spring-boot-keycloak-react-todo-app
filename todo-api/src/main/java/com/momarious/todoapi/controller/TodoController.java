@@ -9,6 +9,7 @@ import com.momarious.todoapi.service.TodoService;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("todos")
 public class TodoController {

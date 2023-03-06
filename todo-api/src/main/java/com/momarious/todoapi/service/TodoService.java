@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.momarious.todoapi.dto.TodoDto;
 import com.momarious.todoapi.entity.Todo;
+import com.momarious.todoapi.entity.TodoStatus;
 import com.momarious.todoapi.repository.TodoRepository;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class TodoService {
         return todoRepository.findByCategoryId(categoryId);
     }
 
+    
     public Todo createTodo(TodoDto todoDto) {
 
         // if (!todo.getUserId().equals(userId)) {
@@ -45,6 +47,7 @@ public class TodoService {
                 .title(todoDto.getTitle())
                 .description(todoDto.getDescription())
                 .dueDate(todoDto.getDueDate())
+                .status("todo")
                 // Other properties can be set as well
                 .build();
 
