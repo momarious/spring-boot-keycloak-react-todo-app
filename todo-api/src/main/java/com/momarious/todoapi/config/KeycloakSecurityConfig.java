@@ -23,8 +23,9 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @KeycloakConfiguration
 @EnableWebSecurity
 @Import(KeycloakSpringBootConfigResolver.class)
-@EnableConfigurationProperties({ KeycloakSpringBootProperties.class, SecurityProperties.class })
-@Order(1)
+// @EnableConfigurationProperties({ KeycloakSpringBootProperties.class,
+// SecurityProperties.class })
+// @Order(1)
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     // @Autowired
@@ -40,19 +41,22 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/todos").authenticated()
-                .antMatchers(HttpMethod.POST, "/todos").authenticated()
-                // .antMatchers(HttpMethod.GET, "/usr").authenticated()
-                .antMatchers(HttpMethod.GET, "/todos/{id}").permitAll()
-                .antMatchers(HttpMethod.PUT, "/todos/{id}").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/todos/{id}").hasRole("USER")
-                .anyRequest().authenticated();
-        // http.csrf().disable();
-        http.cors();
+        // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        // .and()
+        // .authorizeRequests()
+        // .antMatchers(HttpMethod.GET, "todos").authenticated()
+        // .antMatchers(HttpMethod.POST, "todos").authenticated()
+        // // .antMatchers(HttpMethod.GET, "/usr").authenticated()
+        // .antMatchers(HttpMethod.GET, "/todos/{id}").permitAll()
+        // .antMatchers(HttpMethod.PUT, "/todos/{id}").permitAll()
+        // .antMatchers(HttpMethod.DELETE, "/todos/{id}").hasRole("USER")
+        // .anyRequest().authenticated();
+        http.csrf().disable();
+        // http.cors();
 
+        http.authorizeRequests()
+                // .antMatchers("/todos/**").authenticated()
+                .anyRequest().permitAll();
     }
 
     @Override

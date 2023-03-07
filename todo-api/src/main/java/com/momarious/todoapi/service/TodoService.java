@@ -1,6 +1,7 @@
 package com.momarious.todoapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.momarious.todoapi.dto.TodoDto;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class TodoService {
 
     private final TodoRepository todoRepository;
-    
+
     public TodoService(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
@@ -36,11 +37,11 @@ public class TodoService {
         return todoRepository.findByCategoryId(categoryId);
     }
 
-    
     public Todo createTodo(TodoDto todoDto) {
 
         // if (!todo.getUserId().equals(userId)) {
-        //     throw new UnauthorizedAccessException("You are not authorized to create this todo");
+        // throw new UnauthorizedAccessException("You are not authorized to create this
+        // todo");
         // }
 
         Todo todo = Todo.builder()
@@ -50,6 +51,7 @@ public class TodoService {
                 .status("todo")
                 // Other properties can be set as well
                 .build();
+        System.out.println("todo dto: " + todoDto);
 
         return todoRepository.save(todo);
     }
@@ -57,17 +59,17 @@ public class TodoService {
     public Optional<TodoDto> updateTodoById(String id, TodoDto todo) {
         // Optional<Todo> existingTodo = todoRepository.findById(id);
         // if (existingTodo.isPresent()) {
-        //     // Copy the fields from the updated todo to the existing todo
-        //     existingTodo.get().setTitle(todo.getTitle());
-        //     existingTodo.get().setDescription(todo.getDescription());
-        //     existingTodo.get().setStatus(todo.getStatus());
-        //     existingTodo.get().setDueDate(todo.getDueDate());
-        //     existingTodo.get().setCategoryId(todo.getCategoryId());
+        // // Copy the fields from the updated todo to the existing todo
+        // existingTodo.get().setTitle(todo.getTitle());
+        // existingTodo.get().setDescription(todo.getDescription());
+        // existingTodo.get().setStatus(todo.getStatus());
+        // existingTodo.get().setDueDate(todo.getDueDate());
+        // existingTodo.get().setCategoryId(todo.getCategoryId());
 
-        //     // Save the updated todo to the database
-        //     return Optional.of(todoRepository.save(existingTodo.get()));
+        // // Save the updated todo to the database
+        // return Optional.of(todoRepository.save(existingTodo.get()));
         // } else {
-        //     return Optional.empty();
+        // return Optional.empty();
         // }
         return null;
     }
@@ -80,5 +82,14 @@ public class TodoService {
         } else {
             return false;
         }
+    }
+
+    public Todo getLastUpdatedTodo() {
+        Sort sortByUpdatedDateDesc = Sort.by(Sort.Direction.DESC, "updatedDate");
+        List<Todo> todos = todoRepository.findAll(sortByUpdatedDateDesc);
+        // if (todos.isEmpty()) {
+        //     return ResponseEntity.notFound().build();
+        // }
+        return todos.get(0);
     }
 }

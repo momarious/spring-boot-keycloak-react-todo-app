@@ -2,6 +2,7 @@ package com.momarious.todoapi.entity;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -21,6 +22,8 @@ public class Todo {
     private String dueDate;
     private String userId;
     private String categoryId;
-    private String updatedDate;
+
+    @Builder.Default
+    private String updatedDate = LocalDateTime.now().toString();
     private List<Attachment> attachments;
 }

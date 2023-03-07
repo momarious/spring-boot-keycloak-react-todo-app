@@ -1,5 +1,6 @@
 package com.momarious.todoapi.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.momarious.todoapi.dto.ResponseDto;
@@ -15,11 +16,12 @@ import java.util.List;
 public class TodoController {
 
     private final TodoService todoService;
-    
+
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public ResponseDto<List<Todo>> getAllTodos() {
         try {
@@ -64,4 +66,7 @@ public class TodoController {
             return ResponseDto.error(e.getMessage());
         }
     }
+
+
+
 }
